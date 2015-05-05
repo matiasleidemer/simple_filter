@@ -1,5 +1,7 @@
-require "simple_filter/version"
+require 'simple_filter/version'
 
 module SimpleFilter
-  # Your code goes here...
+  autoload :ModuleHelper, 'simple_filter/module_helper'
+  autoload :Filter, 'simple_filter/filter'
+  autoload :Base, 'simple_filter/base'
 end
