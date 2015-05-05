@@ -1,71 +1,160 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta charset="UTF-8">
     <title>Simple filter by matiasleidemer</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Simple filter</h1>
-        <p>A simple DSL to create filter classes for ActiveRecord scopes</p>
+    <section class="page-header">
+      <h1 class="project-name">Simple filter</h1>
+      <h2 class="project-tagline">A simple DSL to create filter classes for ActiveRecord scopes</h2>
+      <a href="https://github.com/matiasleidemer/simple_filter" class="btn">View on GitHub</a>
+      <a href="https://github.com/matiasleidemer/simple_filter/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/matiasleidemer/simple_filter/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-        <p class="view"><a href="https://github.com/matiasleidemer/simple_filter">View the Project on GitHub <small>matiasleidemer/simple_filter</small></a></p>
+    <section class="main-content">
+      <p><a href="https://codeclimate.com/github/matiasleidemer/simple_filter"><img src="https://codeclimate.com/github/matiasleidemer/simple_filter/badges/gpa.svg" alt="Code Climate"></a> <a href="https://travis-ci.org/matiasleidemer/simple_filter"><img src="https://travis-ci.org/matiasleidemer/simple_filter.svg" alt="Build Status"></a></p>
 
+<h1>
+<a id="simplefilter" class="anchor" href="#simplefilter" aria-hidden="true"><span class="octicon octicon-link"></span></a>SimpleFilter</h1>
 
-        <ul>
-          <li><a href="https://github.com/matiasleidemer/simple_filter/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/matiasleidemer/simple_filter/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/matiasleidemer/simple_filter">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<p>SimpleFilter is a very simple ruby <em>DSL</em> to write filter (or search) classes for ActiveRecord scopes. It's only responsability is to map parameters to defined scopes.</p>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<p>To use search classes is pretty straightforward:</p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<div class="highlight highlight-ruby"><pre><span class="pl-c1">FooSearch</span>.<span class="pl-k">new</span>(params <span class="pl-k">=</span> {}).scoping(<span class="pl-c1">Model</span>.all).search</pre></div>
 
-<h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<p><code>params</code> should be a hash containing all the desired filters, and <code>scope</code> is the current model scope that the filters will be applied into, for example:</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">CampaignsController<span class="pl-e"> &lt; ApplicationController</span></span>
+  <span class="pl-k">def</span> <span class="pl-en">index</span>
+    <span class="pl-smi">@campaigns</span> <span class="pl-k">=</span> <span class="pl-c1">CampaignSearcher</span>.<span class="pl-k">new</span>(search_params).scoping(<span class="pl-c1">Campaign</span>.all).search
+  <span class="pl-k">end</span>
 
-<h3>
-<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+  <span class="pl-k">private</span>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+  <span class="pl-k">def</span> <span class="pl-en">search_params</span>
+    params.slice(<span class="pl-c1">:name</span>, <span class="pl-c1">:category</span>, <span class="pl-c1">:whatever</span>)
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span></pre></div>
 
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>The <code>search</code> method returns an <code>ActiveRecord::Relation</code>, making it easy to chain other scopes or conditions when needed.</p>
 
 <h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<a id="filter" class="anchor" href="#filter" aria-hidden="true"><span class="octicon octicon-link"></span></a>Filter</h3>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="https://help.github.com/pages">https://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/matiasleidemer">matiasleidemer</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+<p>Filter is the class method that creates a new filter (really?!). Here's a simple example:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">FooSearch<span class="pl-e"> &lt; SimpleFilter::Base</span></span>
+  filter <span class="pl-c1">:active</span>
+
+<span class="pl-k">end</span>
+
+<span class="pl-c"># Usage</span>
+<span class="pl-c1">FooSearch</span>.<span class="pl-k">new</span>(<span class="pl-c1">active:</span> <span class="pl-c1">true</span>).scoping(<span class="pl-c1">Foo</span>.all).search
+
+<span class="pl-c"># Which is the same as</span>
+<span class="pl-c1">Foo</span>.all.active</pre></div>
+
+<p>You can apply whatever scope needed:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-c1">FooSearch</span>.<span class="pl-k">new</span>(<span class="pl-c1">active:</span> <span class="pl-c1">true</span>).scoping(current_user.posts).search
+<span class="pl-c"># =&gt; current_user.posts.active</span></pre></div>
+
+<p>You can also create a filter that calls the scope method with the parameter value using the option <code>value_param: true</code></p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">FooSearch<span class="pl-e"> &lt; SimpleFilter::Base</span></span>
+  filter <span class="pl-c1">:active</span>
+  filter <span class="pl-c1">:by_name</span>, <span class="pl-c1">value_param:</span> <span class="pl-c1">true</span>
+<span class="pl-k">end</span>
+
+<span class="pl-c1">FooSearch</span>.<span class="pl-k">new</span>(<span class="pl-c1">by_name:</span> <span class="pl-s"><span class="pl-pds">'</span>Matias<span class="pl-pds">'</span></span>).scoping(<span class="pl-c1">Foo</span>.all).search
+<span class="pl-c"># =&gt; Foo.all.by_name('Matias')</span>
+
+<span class="pl-c1">FooSearch</span>.<span class="pl-k">new</span>(<span class="pl-c1">by_name:</span> <span class="pl-s"><span class="pl-pds">'</span>Matias<span class="pl-pds">'</span></span>, <span class="pl-c1">active:</span> <span class="pl-c1">true</span>).scoping(<span class="pl-c1">Foo</span>.all).search
+<span class="pl-c"># =&gt; Foo.all.active.by_name('Matias')</span></pre></div>
+
+<p>Of course you have to define those scopes in your ActiveRecord model:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">Foo<span class="pl-e"> &lt; ActiceRecord::Base</span></span>
+  scope <span class="pl-c1">:active</span>, <span class="pl-k">-</span><span class="pl-k">&gt;</span> { where <span class="pl-c1">active:</span> <span class="pl-c1">true</span> }
+  scope <span class="pl-c1">:by_name</span>, <span class="pl-k">-</span><span class="pl-k">&gt;</span> (name) { where <span class="pl-s"><span class="pl-pds">'</span>name like ?<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">"</span>%<span class="pl-pse">#{</span><span class="pl-s1">name</span><span class="pl-pse"><span class="pl-s1">}</span></span>%<span class="pl-pds">"</span></span> }
+<span class="pl-k">end</span></pre></div>
+
+<h3>
+<a id="custom-filters" class="anchor" href="#custom-filters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Custom filters</h3>
+
+<p>Lastly, you can create fully customized filters. Let's say you want to apply a specific filter only when some condition is true</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">FooSearch<span class="pl-e"> &lt; SimpleFilter::Base</span></span>
+  filter <span class="pl-c1">:active</span>
+  filter <span class="pl-c1">:name</span>, <span class="pl-c1">value_param:</span> <span class="pl-c1">true</span>
+  filter <span class="pl-c1">:within_period</span>
+
+  <span class="pl-k">def</span> <span class="pl-en">within_period</span>
+    <span class="pl-k">return</span> <span class="pl-k">unless</span> date_range?
+
+    scope.where(<span class="pl-s"><span class="pl-pds">'</span>start_at &gt;= ? and end_at &lt;= ?<span class="pl-pds">'</span></span>, params[<span class="pl-c1">:start_at</span>], params[<span class="pl-c1">:end_at</span>])
+  <span class="pl-k">end</span>
+
+  <span class="pl-k">private</span>
+
+  <span class="pl-k">def</span> <span class="pl-en">date_range?</span>
+    params[<span class="pl-c1">:start_at</span>].present? <span class="pl-k">&amp;&amp;</span> params[<span class="pl-c1">:end_at</span>].present?
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
+
+<span class="pl-c1">FooSearch</span>.<span class="pl-k">new</span>(<span class="pl-c1">start_at:</span> <span class="pl-s"><span class="pl-pds">'</span>2015-05-08<span class="pl-pds">'</span></span>, <span class="pl-c1">end_at:</span> <span class="pl-s"><span class="pl-pds">'</span>2015-05-31<span class="pl-pds">'</span></span>).scoping(<span class="pl-c1">Foo</span>.all).search</pre></div>
+
+<p>Note that in the example above I'm using <code>params</code> and <code>scope</code> attributes. You can use it the create custom conditions and validation for your filters. It's important that your custom filters always return a <code>ActiveRecord::Relation</code> object, since it will chain it with the other filters.</p>
+
+<p>It's also possible to call <code>super</code> when you define your custom filters, this happens because of the way filters are defined in the <code>SimpleFilter::Base</code> class.</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">class</span> <span class="pl-en">FooSearch<span class="pl-e"> &lt; SimpleFilter::Base</span></span>
+  filter <span class="pl-c1">:active</span>
+
+  <span class="pl-k">def</span> <span class="pl-en">active</span>
+    <span class="pl-k">super</span>.where <span class="pl-s"><span class="pl-pds">'</span>some other condition<span class="pl-pds">'</span></span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
+</pre></div>
+
+<h2>
+<a id="development" class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h2>
+
+<p>After checking out the repo, run <code>bin/setup</code> to install dependencies. Then, run <code>bin/console</code> for an interactive prompt that will allow you to experiment.</p>
+
+<p>To install this gem onto your local machine, run <code>bundle exec rake install</code>. To release a new version, update the version number in <code>version.rb</code>, and then run <code>bundle exec rake release</code> to create a git tag for the version, push git commits and tags, and push the <code>.gem</code> file to <a href="https://rubygems.org">rubygems.org</a>.</p>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<ol>
+<li>Fork it ( <a href="https://github.com/matiasleidemer/simple_filter/fork">https://github.com/matiasleidemer/simple_filter/fork</a> )</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create a new Pull Request</li>
+</ol>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/matiasleidemer/simple_filter">Simple filter</a> is maintained by <a href="https://github.com/matiasleidemer">matiasleidemer</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
+
+    </section>
+
+  
   </body>
 </html>
+
