@@ -1,5 +1,7 @@
 [![Code Climate](https://codeclimate.com/github/matiasleidemer/simple_filter/badges/gpa.svg)](https://codeclimate.com/github/matiasleidemer/simple_filter)
 
+[![Build Status](https://travis-ci.org/matiasleidemer/simple_filter.svg)](https://travis-ci.org/matiasleidemer/simple_filter)
+
 # SimpleFilter
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/simple_filter`. To experiment with that code, run `bin/console` for an interactive prompt.
