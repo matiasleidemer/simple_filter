@@ -6,6 +6,7 @@ describe SimpleFilter do
   end
 
   it 'does something useful' do
-    expect(false).to eq(true)
+    expect(ProductFilter).to_not be nil
+    expect(Product).to_not be nil
   end
 end
