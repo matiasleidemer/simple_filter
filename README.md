@@ -2,29 +2,123 @@
 
 # SimpleFilter
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/simple_filter`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'simple_filter'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install simple_filter
+SimpleFilter is a very simple ruby _DSL_ to write filter (or search) classes for ActiveRecord scopes. It's only responsability is to map parameters to defined scopes.
 
 ## Usage
 
-TODO: Write usage instructions here
+To use search classes is pretty straightforward:
+
+```ruby
+FooSearch.new(params = {}).scoping(Model.all).search
+```
+
+`params` should be a hash containing all the desired filters, and `scope` is the current model scope that the filters will be applied into, for example:
+
+```ruby
+class CampaignsController < ApplicationController
+  def index
+    @campaigns = CampaignSearcher.new(search_params).scoping(Campaign.all).search
+  end
+
+  private
+  
+  def search_params
+    params.slice(:name, :category, :whatever)
+  end
+end
+```
+
+The `search` method returns an `ActiveRecord::Relation`, making it easy to chain other scopes or conditions when needed.
+
+### Filter
+
+Filter is the class method that creates a new filter (really?!). Here's a simple example:
+
+```ruby
+class FooSearch < SimpleFilter::Base
+  filter :active
+  
+end
+
+# Usage
+FooSearch.new(active: true).scoping(Foo.all).search
+
+# Which is the same as
+Foo.all.active
+```
+
+You can apply whatever scope needed:
+
+```ruby
+FooSearch.new(active: true).scoping(current_user.posts).search
+# => current_user.posts.active
+```
+
+You can also create a filter that calls the scope method with the parameter value using the option `value_param: true`
+
+```ruby
+class FooSearch < SimpleFilter::Base
+  filter :active
+  filter :by_name, value_param: true
+end
+
+FooSearch.new(by_name: 'Matias').scoping(Foo.all).search
+# => Foo.all.by_name('Matias')
+
+FooSearch.new(by_name: 'Matias', active: true).scoping(Foo.all).search
+# => Foo.all.active.by_name('Matias')
+```
+
+Of course you have to define those scopes in your ActiveRecord model:
+
+```ruby
+class Foo < ActiceRecord::Base
+  scope :active, -> { where active: true }
+  scope :by_name, -> (name) { where 'name like ?', "%#{name}%" }
+end
+```
+
+### Custom filters
+
+Lastly, you can create fully customized filters. Let's say you want to apply a specific filter only when some condition is true
+
+```ruby
+class FooSearch < SimpleFilter::Base
+  filter :active
+  filter :name, value_param: true
+  filter :within_period
+  
+  def within_period
+    return unless date_range?
+    
+    scope.where('start_at >= ? and end_at <= ?', params[:start_at], params[:end_at])
+  end
+    
+  private
+  
+  def date_range?
+    params[:start_at].present? && params[:end_at].present?
+  end
+end
+
+FooSearch.new(start_at: '2015-05-08', end_at: '2015-05-31').scoping(Foo.all).search
+```
+
+Note that in the example above I'm using `params` and `scope` attributes. You can use it the create custom conditions and validation for your filters. It's important that your custom filters always return a `ActiveRecord::Relation` object, since it will chain it with the other filters.
+
+It's also possible to call `super` when you define your custom filters, this happens because of the way filters are defined in the `SimpleFilter::Base` class.
+
+
+```ruby
+class FooSearch < SimpleFilter::Base
+  filter :active
+  
+  def active
+    super.where 'some other condition'
+  end
+end
+
+```
 
 ## Development
 
