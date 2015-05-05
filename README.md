@@ -1,6 +1,4 @@
-[![Code Climate](https://codeclimate.com/github/matiasleidemer/simple_filter/badges/gpa.svg)](https://codeclimate.com/github/matiasleidemer/simple_filter)
-
-[![Build Status](https://travis-ci.org/matiasleidemer/simple_filter.svg)](https://travis-ci.org/matiasleidemer/simple_filter)
+[![Code Climate](https://codeclimate.com/github/matiasleidemer/simple_filter/badges/gpa.svg)](https://codeclimate.com/github/matiasleidemer/simple_filter) [![Build Status](https://travis-ci.org/matiasleidemer/simple_filter.svg)](https://travis-ci.org/matiasleidemer/simple_filter)
 
 # SimpleFilter
 
