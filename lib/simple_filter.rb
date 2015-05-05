@@ -1,3 +1,4 @@
+require 'active_record'
 require 'simple_filter/version'
 
 module SimpleFilter
