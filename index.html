@@ -26,6 +26,15 @@
 
 <p>SimpleFilter is a very simple ruby <em>DSL</em> to write filter (or search) classes for ActiveRecord scopes. It's only responsability is to map parameters to defined scopes.</p>
 
+<p>It currently works with ActiveRecord 4.0 or greater.</p>
+
+<h2>
+<a id="instalation" class="anchor" href="#instalation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Instalation</h2>
+
+<p>Unfortunetely there's already a gem called <code>simple_form</code>, but fear not, you only need to require the lib in your Gemfile:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">gem</span> <span class="pl-s"><span class="pl-pds">'</span>simple-form<span class="pl-pds">'</span></span>, <span class="pl-c1">require:</span> <span class="pl-s"><span class="pl-pds">'</span>simple_form<span class="pl-pds">'</span></span></pre></div>
+
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
@@ -125,8 +134,15 @@
   <span class="pl-k">def</span> <span class="pl-en">active</span>
     <span class="pl-k">super</span>.where <span class="pl-s"><span class="pl-pds">'</span>some other condition<span class="pl-pds">'</span></span>
   <span class="pl-k">end</span>
-<span class="pl-k">end</span>
-</pre></div>
+<span class="pl-k">end</span></pre></div>
+
+<h2>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Todo</h2>
+
+<ul>
+<li>Ordering</li>
+<li>Pagination</li>
+</ul>
 
 <h2>
 <a id="development" class="anchor" href="#development" aria-hidden="true"><span class="octicon octicon-link"></span></a>Development</h2>
