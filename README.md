@@ -10,7 +10,9 @@ It currently works with ActiveRecord 4.0 or greater.
 
 Unfortunetely there's already a gem called `simple_form`, but fear not, you only need to require the lib in your Gemfile:
 
-`gem 'simple-form', require: 'simple_form'`
+```ruby
+gem 'simple-form', require: 'simple_form'
+```
 
 ## Usage
 
