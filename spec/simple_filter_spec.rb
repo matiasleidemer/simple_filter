@@ -2,8 +2,8 @@ require 'spec_helper'
 
 class ProductFilter < SimpleFilter::Base
   filter :active
+  filter :inactive
   filter :with_name, value_param: true
-  filter :date_range, bypass: true
 
   def date_range
     return unless params[:start_at].present?
@@ -22,6 +22,7 @@ describe SimpleFilter do
 
   it 'filters a simple param' do
     expect(search(active: true).count).to eql 3
+    expect(search(inactive: true).count).to eql 1
     expect(search.count).to eql 4
   end
 
@@ -36,5 +37,6 @@ describe SimpleFilter do
 
   it 'filters multiple params' do
     expect(search(with_name: 'pen', active: true).count).to eql 0
+    expect(search(with_name: 'pen', inactive: true).count).to eql 1
   end
 end
