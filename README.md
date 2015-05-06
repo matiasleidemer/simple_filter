@@ -117,8 +117,12 @@ class FooSearch < SimpleFilter::Base
     super.where 'some other condition'
   end
 end
-
 ```
+
+## Todo
+
+- Ordering
+- Pagination
 
 ## Development
 
