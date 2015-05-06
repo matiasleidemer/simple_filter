@@ -6,6 +6,12 @@ SimpleFilter is a very simple ruby _DSL_ to write filter (or search) classes for
 
 It currently works with ActiveRecord 4.0 or greater.
 
+## Instalation
+
+Unfortunetely there's already a gem called `simple_form`, but fear not, you only need to require the lib in your Gemfile:
+
+`gem 'simple-form', require: 'simple_form'`
+
 ## Usage
 
 To use search classes is pretty straightforward:
