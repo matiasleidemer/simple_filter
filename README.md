@@ -4,6 +4,8 @@
 
 SimpleFilter is a very simple ruby _DSL_ to write filter (or search) classes for ActiveRecord scopes. It's only responsability is to map parameters to defined scopes.
 
+It currently works with ActiveRecord 4.0 or greater.
+
 ## Usage
 
 To use search classes is pretty straightforward:
