@@ -8,10 +8,10 @@ It currently works with ActiveRecord 4.0 or greater.
 
 ## Instalation
 
-Unfortunetely there's already a gem called `simple_form`, but fear not, you only need to require the lib in your Gemfile:
+Unfortunetely there's already a gem called `simple_filter`, but fear not, you only need to require the lib in your Gemfile:
 
 ```ruby
-gem 'simple-form', require: 'simple_form'
+gem 'simple-filter', require: 'simple_filter'
 ```
 
 ## Usage
